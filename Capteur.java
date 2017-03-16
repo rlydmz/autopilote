@@ -1,7 +1,6 @@
 import javax.json.Json;
 import javax.json.JsonObject;
 
-//Classe capteur
 public class Capteur{
 
     private String name;
