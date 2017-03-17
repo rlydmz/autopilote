@@ -61,4 +61,28 @@ public class Capteur{
         return obj;
     }
 
+    public JsonObject toListJsonObject(){
+        JsonObject obj = Json.createObjectBuilder()
+                .add("type", "list")
+                .add("sender_class", getClasse())
+                .build();
+        return obj;
+    }
+
+    public JsonObject toListViaClassJsonObject(){
+        JsonObject obj = Json.createObjectBuilder()
+                .add("type", "list")
+                .add("sender_class", getClasse())
+                .build();
+        return obj;
+    }
+
+    public JsonObject toListViaNameJsonObject(){
+        JsonObject obj = Json.createObjectBuilder()
+                .add("type", "list")
+                .add("sender_id", getName())
+                .build();
+        return obj;
+    }
+
 }
