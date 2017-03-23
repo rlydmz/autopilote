@@ -1,22 +1,40 @@
-import javax.json.Json;
-import javax.json.JsonObject;
+import javax.json.*;
+import java.util.ArrayList;
 
 public class Capteur{
+
+    private final static int MESSAGE_TAB_SIZE = 100;
 
     private String name;
     private String classe;
     private int id;
+    private int currentMsgId;
+    private Message[] msgTab;
 
     public Capteur(){
         name = new String();
         classe = new String();
         id=-1;
+        currentMsgId = 0;
+        msgTab = new Message[MESSAGE_TAB_SIZE];
     }
 
-    public Capteur(String n, String c, int i){
+
+    public Capteur(String n){
+        name = n;
+    }
+
+
+    public Capteur(String n, int i){
+        name = n;
+        id = i;
+    }
+
+    public Capteur(String n, String c, int i, int cmi){
         name = n;
         classe = c;
         id = i;
+        currentMsgId = cmi;
     }
 
     public void setName(String n){
@@ -31,6 +49,14 @@ public class Capteur{
         id = i;
     }
 
+    public void setCurrentMsgId(int ncmi){
+        currentMsgId = ncmi;
+    }
+
+    public void incCurrentMsgId(){
+        currentMsgId++;
+    }
+
     public String getName(){
         return name;
     }
@@ -43,7 +69,35 @@ public class Capteur{
         return id;
     }
 
+    public int getCurrentMsgId(){
+        return currentMsgId;
+    }
 
+    public void addMessage(Message m){
+        m.setId(getCurrentMsgId());
+        msgTab[getCurrentMsgId()%MESSAGE_TAB_SIZE] = m;
+        incCurrentMsgId();
+    }
+
+    public Message getMessage(int id){
+        if(id < 0) {
+            System.out.println("too small id");
+            return null;
+        }
+        else if(id > currentMsgId) {
+            System.out.println("too big id");
+            return null;
+        }
+        else{
+            return msgTab[id%MESSAGE_TAB_SIZE];
+        }
+    }
+
+    public Message getLastMessage(){
+        return msgTab[(getCurrentMsgId()-1)%MESSAGE_TAB_SIZE];
+    }
+
+    //Renvoie un objet Json au format d'une requete de type 'register'
     public JsonObject toRegisterJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("type", "register")
@@ -53,6 +107,7 @@ public class Capteur{
         return obj;
     }
 
+    //Renvoie un objet Json au format d'une requete de type 'deregister'
     public JsonObject toDeregisterJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("type", "deregister")
@@ -61,6 +116,7 @@ public class Capteur{
         return obj;
     }
 
+    //Renvoie un objet Json au format d'une requete de type 'list' simple
     public JsonObject toListJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("type", "list")
@@ -69,6 +125,7 @@ public class Capteur{
         return obj;
     }
 
+    //Renvoie un objet Json au format d'une requete de type 'list' avec comme attribut son nom de classe
     public JsonObject toListViaClassJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("type", "list")
@@ -77,6 +134,7 @@ public class Capteur{
         return obj;
     }
 
+    //Renvoie un objet Json au format d'une requete de type 'list' avec comme attribut son nom d'identification
     public JsonObject toListViaNameJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("type", "list")

@@ -32,7 +32,7 @@ public class ClientCapteur{
         acc.setName("ACC1");
         acc.setClasse("Accelerometter");
 
-        //Création d'un objet Json de type 'register' (voir méthode de classe dans Capteur.java)
+        //Création d'un objet Json de type 'send' (voir méthode de classe dans Capteur.java)
         JsonObject accJsonObj = acc.toSendJsonObject();
 
         //Envoie de l'objet au serveur
