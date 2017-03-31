@@ -3,34 +3,36 @@ import javax.json.JsonObject;
 
 public class GPS extends Capteur{
 
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     public GPS(){
         super();
         latitude = 0;
         longitude = 0;
+        this.setClasse("GPS");
     }
 
-    public GPS(float lat, float lgn){
+    public GPS(double lat, double lgn){
         super();
         latitude = lat;
         longitude = lgn;
+        this.setClasse("GPS");
     }
 
-    public void setLatitude(float lat){
+    public void setLatitude(double lat){
         latitude = lat;
     }
 
-    public void setLongitude(float lgn){
+    public void setLongitude(double lgn){
         longitude = lgn;
     }
 
-    public float getLatitude(){
+    public double getLatitude(){
         return latitude;
     }
 
-    public float getLongitude(){
+    public double getLongitude(){
         return longitude;
     }
 

@@ -41,9 +41,9 @@ public class Bus {
     }
 
     public JsonObject listHandler(){
-        JsonArray answerTab = Json.createArrayBuilder().build();
+        StringBuffer str =  new StringBuffer("[");
         for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
-            answerTab.add(it.next().toJson());
+            str.append(it.next().toJson());
         }
         JsonObject answer = Json.createObjectBuilder()
                 .add("type", "list")

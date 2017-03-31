@@ -18,7 +18,6 @@ public class TestMessage {
         //Création d'un objet de type 'Accelerometter'
         Accelerometer acc = new Accelerometer(5,5,5);
         acc.setName("ACC1");
-        acc.setClasse("Accelerometter");
 
         //Création d'un objet Json de type 'send' (voir méthode de classe dans Capteur.java)
         JsonObject accJsonObj = acc.toSendJsonObject();
@@ -26,10 +25,21 @@ public class TestMessage {
         printJsonSendObject(accJsonObj);
 
         Message m = new Message();
-        m.setId(5);
+        Thread.sleep(1000);
+        Message m2 = new Message();
+
         m.setContent(accJsonObj.getJsonObject("contents"));
 
-        System.out.println(m.toString());
+        acc.setY(40);
+
+        accJsonObj = acc.toSendJsonObject();
+        m2.setContent(accJsonObj.getJsonObject("contents"));
+
+        acc.addMessage(m);
+        acc.addMessage(m2);
+
+        System.out.println(acc.getMessage(0).toString());
+        System.out.println(acc.getMessage(1).toString());
 
     }
 

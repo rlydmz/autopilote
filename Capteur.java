@@ -97,6 +97,17 @@ public class Capteur{
         return msgTab[(getCurrentMsgId()-1)%MESSAGE_TAB_SIZE];
     }
 
+    //Converti l'objet Capteur en objet Json
+    public JsonObject toJson(){
+        JsonObject obj = Json.createObjectBuilder()
+                .add("sender_id", getId())
+                .add("sender_class", getClasse())
+                .add("sender_name", getName())
+                .add("last_message_id", getCurrentMsgId())
+                .build();
+        return obj;
+    }
+
     //Renvoie un objet Json au format d'une requete de type 'register'
     public JsonObject toRegisterJsonObject(){
         JsonObject obj = Json.createObjectBuilder()

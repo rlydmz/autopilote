@@ -12,6 +12,7 @@ public class Gyroscope extends Capteur{
         x = 0;
         y = 0;
         z = 0;
+        this.setClasse("Gyroscope");
     }
 
     public Gyroscope(float x, float y, float z){
@@ -19,6 +20,7 @@ public class Gyroscope extends Capteur{
         this.x = x;
         this.y = y;
         this.z = z;
+        this.setClasse("Gyroscope");
     }
 
     public void setX(int x){
