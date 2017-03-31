@@ -41,27 +41,60 @@ public class Bus {
     }
 
     public JsonObject listHandler(){
-        StringBuffer str =  new StringBuffer("[");
+        JsonArrayBuilder b = Json.createArrayBuilder();
+        StringBuffer str =  new StringBuffer("");
         for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
-            str.append(it.next().toJson());
+            b.add(it.next().toJson());
         }
+        JsonArray ar = b.build();
         JsonObject answer = Json.createObjectBuilder()
                 .add("type", "list")
                 .add("ack", Json.createObjectBuilder()
                     .add("resp", "ok"))
-                .add("results", answerTab)
+                .add("results", ar)
                 .build();
         return answer;
     }
 
-    /*
-    public JsonObject listHandlerViaClass(String c){
 
+    public JsonObject listHandlerViaClass(String c){
+        JsonArrayBuilder b = Json.createArrayBuilder();
+        StringBuffer str =  new StringBuffer("");
+        Capteur capteurTmp = new Capteur();
+        for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
+            capteurTmp = it.next();
+            if(capteurTmp.getClasse().equals(c)) {
+                b.add(capteurTmp.toJson());
+            }
+        }
+        JsonArray ar = b.build();
+        JsonObject answer = Json.createObjectBuilder()
+                .add("type", "list")
+                .add("ack", Json.createObjectBuilder()
+                        .add("resp", "ok"))
+                .add("results", ar)
+                .build();
+        return answer;
     }
 
     public JsonObject listHandlerViaName(String n){
-
+        JsonArrayBuilder b = Json.createArrayBuilder();
+        StringBuffer str =  new StringBuffer("");
+        Capteur capteurTmp = new Capteur();
+        for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
+            capteurTmp = it.next();
+            if(capteurTmp.getName().equals(n)) {
+                b.add(capteurTmp.toJson());
+            }
+        }
+        JsonArray ar = b.build();
+        JsonObject answer = Json.createObjectBuilder()
+                .add("type", "list")
+                .add("ack", Json.createObjectBuilder()
+                        .add("resp", "ok"))
+                .add("results", ar)
+                .build();
+        return answer;
     }
-    */
 
 }

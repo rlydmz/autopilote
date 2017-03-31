@@ -56,7 +56,7 @@ public class Message {
 
     public JsonObject toCompleteJsonObject(){
         JsonObject obj = Json.createObjectBuilder()
-                .add("mdg_id", getMsgId())
+                .add("msg_id", getMsgId())
                 .add("date", getDate())
                 .add("contents", getContent())
                 .build();
