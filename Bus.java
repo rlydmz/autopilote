@@ -17,6 +17,60 @@ public class Bus {
         incId++;
     }
 
+    public JsonObject generalHandler(JsonObject request){
+
+        JsonObject answer;
+
+        //Si la requete est de type "register"
+        if(request.getString("type").equals("register")){
+            String classe = request.getString("sender_class");
+            String name = request.getString("sender_name");
+            Capteur c = new Capteur(classe, name);
+            answer = registerHandler(c);
+        }
+        //Si la requete est de type "deregister"
+        else if(request.getString("type").equals("deregister")){
+            int senderId = request.getInt("sender_id");
+            answer = deregisterHandler(senderId);
+        }
+        //Si la requete est de type "list"
+        //On traite le format de la requete, avec ou sans argument
+        else if(request.getString("type").equals("list")){
+            if(request.getString("sender_class").equals(null) && request.getString("sender_name").equals(null)){
+                answer = listHandler();
+            }
+            else if(!request.getString("sender_class").equals(null)){
+                String classe = request.getString("sender_class");
+                answer = listHandlerViaClass(classe);
+            }
+            else if(!request.getString("sender_name").equals(null)){
+                String name = request.getString("sender_name");
+                answer = listHandlerViaClass(name);
+            }
+            else{
+                answer = Json.createObjectBuilder()
+                        .add("type", "list")
+                        .add("ack", errorHandler(404))
+                        .build();
+            }
+        }
+        //Si la requete est de type "send"
+        else if(request.getString("type").equals("send")){
+            int id = id = request.getInt("sender_id");
+            for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
+                if(it.next().getId() == id){
+                    
+                }
+            }
+            for(Capteur c : capteurList){
+                if(c.getId() == id)
+
+            }
+        }
+
+        return answer;
+    }
+
     public JsonObject registerHandler(Capteur c){
         incrementId();
         c.setId(incId);
@@ -30,7 +84,7 @@ public class Bus {
         return answer;
     }
 
-    public JsonObject deregisterHandler(Capteur c){
+    public JsonObject deregisterHandler(int i){
         //A faire : enlever l'élément c de la liste
         JsonObject answer = Json.createObjectBuilder()
                 .add("type", "deregister")
@@ -60,7 +114,7 @@ public class Bus {
     public JsonObject listHandlerViaClass(String c){
         JsonArrayBuilder b = Json.createArrayBuilder();
         StringBuffer str =  new StringBuffer("");
-        Capteur capteurTmp = new Capteur();
+        Capteur capteurTmp;
         for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
             capteurTmp = it.next();
             if(capteurTmp.getClasse().equals(c)) {
@@ -78,16 +132,16 @@ public class Bus {
     }
 
     public JsonObject listHandlerViaName(String n){
-        JsonArrayBuilder b = Json.createArrayBuilder();
+        JsonArrayBuilder builder = Json.createArrayBuilder();
         StringBuffer str =  new StringBuffer("");
         Capteur capteurTmp = new Capteur();
         for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
             capteurTmp = it.next();
             if(capteurTmp.getName().equals(n)) {
-                b.add(capteurTmp.toJson());
+                builder.add(capteurTmp.toJson());
             }
         }
-        JsonArray ar = b.build();
+        JsonArray ar = builder.build();
         JsonObject answer = Json.createObjectBuilder()
                 .add("type", "list")
                 .add("ack", Json.createObjectBuilder()
@@ -95,6 +149,14 @@ public class Bus {
                 .add("results", ar)
                 .build();
         return answer;
+    }
+
+    public JsonObject errorHandler(int errorId){
+        JsonObject obj = Json.createObjectBuilder()
+                .add("resp","error")
+                .add("error_id", errorId)
+                .build();
+        return obj;
     }
 
 }

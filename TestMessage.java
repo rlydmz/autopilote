@@ -40,6 +40,7 @@ public class TestMessage {
 
         System.out.println(acc.getMessage(0).toString());
         System.out.println(acc.getMessage(1).toString());
+        System.out.println(acc.getLastMessage().toString());
 
     }
 

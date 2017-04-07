@@ -25,9 +25,9 @@ public class Capteur{
     }
 
 
-    public Capteur(String n, int i){
+    public Capteur(String n, String c){
+        classe = c;
         name = n;
-        id = i;
     }
 
     public Capteur(String n, String c, int i, int cmi){

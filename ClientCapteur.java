@@ -1,17 +1,15 @@
 import javax.json.*;
-
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.Charset;
 
 public class ClientCapteur{
 
-    //MÈthode permettant de vÈrifier si l'identification sur le serveur
-    //a ÈtÈ fructueuse ou non
+    //M√©thode permettant de v√©rifier si l'identification sur le serveur
+    //a √©t√© fructueuse ou non
     //Si oui, la fonction renvoie 0
-    //Sinon elle renvoie le code d'erreur associÈ
-    //Pour le moment inutilisÈe
-    //A utiliser plus tard lorsqu'on recevra une rÈponse de la part du serveur
+    //Sinon elle renvoie le code d'erreur associ√©
+    //Pour le moment inutilis√©e
+    //A utiliser plus tard lorsqu'on recevra une r√©ponse de la part du serveur
     public static int checkRegistration(JsonObject obj){
         JsonObject ackObj = obj.getJsonObject("ack");
         if(ackObj.getString("resp").equals("ok"))
@@ -22,28 +20,25 @@ public class ClientCapteur{
 
     public static void main(String[] args) throws Exception {
 
-        //CrÈation de la socket client (port conforme aux spÈcifications)
-        @SuppressWarnings("resource")
-		Socket client = new Socket("127.0.0.1", 7182);
+        //Cr√©ation de la socket client (port conforme aux sp√©cifications)
+        Socket client = new Socket("127.0.0.1", 7182);
 
-        
-        //CrÈation des flux d'entrÈes/sorties
+        //Cr√©ation des flux d'entr√©es/sorties
         OutputStream outputDatas = client.getOutputStream();
-        	
+        JsonWriter jsw = Json.createWriter(outputDatas);
 
-        //CrÈation d'un objet de type 'Accelerometter'
+        //Cr√©ation d'un objet de type 'Accelerometter'
         Accelerometer acc = new Accelerometer(5,5,5);
         acc.setName("ACC1");
         acc.setClasse("Accelerometter");
-        
+
+        //Cr√©ation d'un objet Json de type 'send' (voir m√©thode de classe dans Capteur.java)
         JsonObject accJsonObj = acc.toSendJsonObject();
-        Message accMsg = new Message(0, accJsonObj);
-        
-        outputDatas.write(accMsg.toCompleteJsonObject().toString().getBytes(Charset.forName("UTF-8")));
-        
-        
-        
-        
+
+        //Envoie de l'objet au serveur
+        jsw.writeObject(accJsonObj);
+
+        jsw.close();
         outputDatas.close();
 
     }

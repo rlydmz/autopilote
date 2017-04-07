@@ -1,5 +1,4 @@
 import javax.json.*;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,41 +19,32 @@ public class Server {
         System.out.println("contents : " + obj.getJsonObject("contents"));
     }
 
-    
-    @SuppressWarnings("resource")
-	static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
-    	
-    
     public static void main(String[] args) throws Exception {
 
-        //Création de la socket serveur
+        //CrÃ©ation de la socket serveur
         ServerSocket serveur = new ServerSocket(7182);
 
         while(true){
-        	
-        	
 
             //On attend qu'un client interroge le serveur
             Socket socket = serveur.accept();
 
-            //Création des flux d'entrées/sorties
+            //CrÃ©ation des flux d'entrÃ©es/sorties
             InputStream inputDatas = socket.getInputStream();
-            
-            // VERSION STRING 
-            String theString = convertStreamToString(inputDatas);
-            
+            JsonReader jsr = Json.createReader(inputDatas);
 
+            JsonObject accJsonObj = jsr.readObject();
+
+            System.out.println("AFFICHAGE BRUT DE L'OBJECT :");
+            System.out.println(accJsonObj);
 
             System.out.println("-----------------------------");
 
-            System.out.println("AFFICHAGE DE L'OBJECT");
-            System.out.println(theString);
+            System.out.println("AFFICHAGE DE L'OBJECT EN LE 'PARSANT' :");
+            printJsonSendObject(accJsonObj);
 
+            jsr.close();
             inputDatas.close();
-            
 
             socket.close();
 
@@ -63,3 +53,5 @@ public class Server {
     }
 
 }
+
+
