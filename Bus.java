@@ -19,7 +19,7 @@ public class Bus {
 
     public JsonObject generalHandler(JsonObject request){
 
-        JsonObject answer;
+        JsonObject answer = Json.createObjectBuilder().build();
 
         //Si la requete est de type "register"
         if(request.getString("type").equals("register")){
@@ -56,16 +56,8 @@ public class Bus {
         }
         //Si la requete est de type "send"
         else if(request.getString("type").equals("send")){
-            int id = id = request.getInt("sender_id");
-            for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
-                if(it.next().getId() == id){
-                    
-                }
-            }
-            for(Capteur c : capteurList){
-                if(c.getId() == id)
-
-            }
+            int id = request.getInt("sender_id");
+            answer = sendHandler(request, id);
         }
 
         return answer;
@@ -85,12 +77,28 @@ public class Bus {
     }
 
     public JsonObject deregisterHandler(int i){
-        //A faire : enlever l'élément c de la liste
-        JsonObject answer = Json.createObjectBuilder()
-                .add("type", "deregister")
-                .add("ack", Json.createObjectBuilder()
-                    .add("resp", "ok")
-                ).build();
+        JsonObject answer;
+        boolean isRemoved = false;
+        for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
+            if(it.next().getId() == i){
+                it.remove();
+                isRemoved = true;
+            }
+        }
+        //Si l'objet n'a pas été remove on renvoie un code d'erreur
+        if(!isRemoved){
+            answer = Json.createObjectBuilder()
+                    .add("type", "deregister")
+                    .add("ack", errorHandler(404)
+                    ).build();
+        }
+        else{
+            answer = Json.createObjectBuilder()
+                    .add("type", "deregister")
+                    .add("ack", Json.createObjectBuilder()
+                            .add("resp", "ok")
+                    ).build();
+        }
         return answer;
     }
 
@@ -147,6 +155,26 @@ public class Bus {
                 .add("ack", Json.createObjectBuilder()
                         .add("resp", "ok"))
                 .add("results", ar)
+                .build();
+        return answer;
+    }
+
+    public JsonObject sendHandler(JsonObject request, int id){
+        for(Capteur c : capteurList){
+            if(c.getId() == id){
+                JsonObject content = Json.createObjectBuilder()
+                        .add("contents", request.getJsonObject("contents"))
+                        .build();
+                c.addMessage(new Message(
+                        c.getCurrentMsgId(),
+                        content
+                ));
+            }
+        }
+        JsonObject answer = Json.createObjectBuilder()
+                .add("type", "send")
+                .add("ack", Json.createObjectBuilder()
+                        .add("resp", "ok"))
                 .build();
         return answer;
     }

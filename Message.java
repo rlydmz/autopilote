@@ -5,18 +5,18 @@ public class Message {
 
     private int msgId;
     private long date;      //nb de ms depuis le 01 01 1970
-    private JsonObject content;
+    private JsonObject contents;
 
     public Message(){
         msgId = 0;
         date =  System.currentTimeMillis();
-        content = null;
+        contents = null;
     }
 
     public Message(int id, JsonObject j){
         msgId = id;
         date =  System.currentTimeMillis();
-        content = j;
+        contents = j;
     }
 
     public void setId(int id){
@@ -32,7 +32,7 @@ public class Message {
     }
 
     public void setContent(JsonObject obj){
-        content = obj;
+        contents = obj;
     }
 
     public int getMsgId(){
@@ -44,7 +44,7 @@ public class Message {
     }
 
     public JsonObject getContent(){
-        return content;
+        return contents;
     }
 
     public String toString(){
