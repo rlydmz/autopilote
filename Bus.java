@@ -39,13 +39,13 @@ public class Bus {
             if(request.getString("sender_class").equals(null) && request.getString("sender_name").equals(null)){
                 answer = listHandler();
             }
-            else if(!request.getString("sender_class").equals(null)){
-                String classe = request.getString("sender_class");
-                answer = listHandlerViaClass(classe);
-            }
             else if(!request.getString("sender_name").equals(null)){
                 String name = request.getString("sender_name");
                 answer = listHandlerViaClass(name);
+            }
+            else if(!request.getString("sender_class").equals(null)){
+                String classe = request.getString("sender_class");
+                answer = listHandlerViaClass(classe);
             }
             else{
                 answer = Json.createObjectBuilder()
@@ -58,6 +58,15 @@ public class Bus {
         else if(request.getString("type").equals("send")){
             int id = request.getInt("sender_id");
             answer = sendHandler(request, id);
+        }
+        else if(request.getString("type").equals("get")){
+            int senderId = request.getInt("sender_id");
+            int msgId = request.getInt("msg_id");
+            answer = getMessageHandler(senderId, msgId);
+        }
+        else if(request.getString("type").equals("get_last")){
+            int senderId = request.getInt("sender_id");
+            answer = getLastMessageHandler(senderId);
         }
 
         return answer;
@@ -142,7 +151,7 @@ public class Bus {
     public JsonObject listHandlerViaName(String n){
         JsonArrayBuilder builder = Json.createArrayBuilder();
         StringBuffer str =  new StringBuffer("");
-        Capteur capteurTmp = new Capteur();
+        Capteur capteurTmp;
         for(Iterator<Capteur> it = capteurList.iterator(); it.hasNext();){
             capteurTmp = it.next();
             if(capteurTmp.getName().equals(n)) {
@@ -177,6 +186,62 @@ public class Bus {
                         .add("resp", "ok"))
                 .build();
         return answer;
+    }
+
+    public JsonObject getMessageHandler(int senderId, int msgId){
+        Message msg = new Message();
+        JsonObject answer;
+        for(Capteur c : capteurList){
+            if(c.getId() == senderId){
+                msg = c.getMessage(msgId);
+                break;
+            }
+        }
+        if(msg == null){
+            answer = Json.createObjectBuilder()
+                    .add("type", "get")
+                    .add("ack", errorHandler(404))
+                    .build();
+        }
+        else{
+            answer = Json.createObjectBuilder()
+                    .add("type", "get")
+                    .add("ack", Json.createObjectBuilder()
+                            .add("resp", "ok"))
+                    .add("msg_id", msg.getMsgId())
+                    .add("date", msg.getDate())
+                    .add("contents", msg.getContent().getJsonObject("contents"))
+                    .build();
+        }
+        return  answer;
+    }
+
+    public JsonObject getLastMessageHandler(int senderId){
+        Message msg = new Message();
+        JsonObject answer = Json.createObjectBuilder().build();
+        for(Capteur c : capteurList){
+            if(c.getId() == senderId){
+                msg = c.getLastMessage();
+                break;
+            }
+        }
+        if(msg == null){
+            answer = Json.createObjectBuilder()
+                    .add("type", "get")
+                    .add("ack", errorHandler(404))
+                    .build();
+        }
+        else{
+            answer = Json.createObjectBuilder()
+                    .add("type", "get")
+                    .add("ack", Json.createObjectBuilder()
+                            .add("resp", "ok"))
+                    .add("msg_id", msg.getMsgId())
+                    .add("date", msg.getDate())
+                    .add("contents", msg.getContent().getJsonObject("contents"))
+                    .build();
+        }
+        return  answer;
     }
 
     public JsonObject errorHandler(int errorId){

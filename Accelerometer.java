@@ -23,15 +23,15 @@ public class Accelerometer extends Capteur{
         this.setClasse("Accelerometer");
     }
 
-    public void setX(int x){
+    public void setX(float x){
         this.x = x;
     }
 
-    public void setY(int y){
+    public void setY(float y){
         this.y = y;
     }
 
-    public void setZ(int z){
+    public void setZ(float z){
         this.z = z;
     }
 

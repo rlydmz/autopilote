@@ -31,15 +31,18 @@ public class TestBus {
         //MESSAGES
 
         System.out.println(b.sendHandler(acc.toSendJsonObject(), 1));
+        for(int i=0; i<30; i++){
+            acc.setZ(acc.getZ()+1);
+            b.sendHandler(acc.toSendJsonObject(), 1);
+        }
 
-        //System.out.println(acc.getLastMessage());
+        for(int i=0; i<31; i++){
+            System.out.println(b.getMessageHandler(1, i));
+        }
 
-        acc.setZ(100);
-        System.out.println(b.sendHandler(acc.toSendJsonObject(), 1));
+        System.out.println("LAST MSG");
 
-        System.out.println(acc.getMessage(0));
-        System.out.println(acc.getLastMessage());
-
+        System.out.println(b.getLastMessageHandler(1));
 
     }
 
