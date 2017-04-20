@@ -1,8 +1,16 @@
 import javax.json.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Client{
+
+    private static JsonObject fromStringToJson(String str) {
+        JsonReader jsonReader = Json.createReader(new StringReader(str));
+        JsonObject object = jsonReader.readObject();
+        jsonReader.close();
+        return object;
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -10,8 +18,8 @@ public class Client{
         Socket client = new Socket("127.0.0.1", 7182);
 
         //Création des flux d'entrées/sorties
-        OutputStream outputDatas = client.getOutputStream();
-        JsonWriter jsw = Json.createWriter(outputDatas);
+        ObjectOutputStream oos= new ObjectOutputStream(client.getOutputStream());
+        ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
 
         //Création d'un objet de type 'Accelerometter'
         Accelerometer acc = new Accelerometer(5,5,5);
@@ -22,14 +30,30 @@ public class Client{
         ClientHandler ch = new ClientHandler(acc);
 
         //Création d'un objet Json de type 'send' (voir méthode de classe dans Capteur.java)
-        JsonObject accJsonObj = acc.toSendJsonObject();
+        JsonObject accJsonObj = acc.toRegisterJsonObject();
 
         //Envoie de l'objet au serveur
-        jsw.writeObject(accJsonObj);
+        String str = accJsonObj.toString();
+        System.out.println(str);
+        oos.writeObject(str);
 
-        jsw.close();
-        outputDatas.close();
+        while(ch.registerHandler(fromStringToJson((String)ois.readObject())) == false){
+            System.out.println("Fail to register to server, retrying in 5 seconds");
+            Thread.sleep(5000);
+        }
 
+        System.out.println(acc.getId());
+
+        while(true){
+            acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
+            acc.setY(ThreadLocalRandom.current().nextInt(0, 200));
+            acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
+            oos.writeObject(acc.toSendJsonObject().toString());
+            Thread.sleep(800);
+        }
+
+        //oos.close();
+        //ois.close();
     }
 
 }

@@ -5,18 +5,11 @@ import java.net.Socket;
 
 public class Server {
 
-    //Affiche le contenu de l'objet JSon de type "register"
-    public static void printJsonRegisterObject(JsonObject obj){
-        System.out.println("type : " + obj.getString("type"));
-        System.out.println("sender_class : " + obj.getString("sender_class"));
-        System.out.println("sender_name : " + obj.getString("sender_name"));
-    }
-
-    //Affiche le contenu de l'objet JSon de type "send"
-    public static void printJsonSendObject(JsonObject obj){
-        System.out.println("type : " + obj.getString("type"));
-        System.out.println("sender_id : " + obj.getInt("sender_id"));
-        System.out.println("contents : " + obj.getJsonObject("contents"));
+    private static JsonObject fromStringToJson(String str) {
+        JsonReader jsonReader = Json.createReader(new StringReader(str));
+        JsonObject object = jsonReader.readObject();
+        jsonReader.close();
+        return object;
     }
 
     public static void main(String[] args) throws Exception {
@@ -24,29 +17,31 @@ public class Server {
         //Création de la socket serveur
         ServerSocket serveur = new ServerSocket(7182);
 
+        Bus b = new Bus();
+
         while(true){
 
             //On attend qu'un client interroge le serveur
             Socket socket = serveur.accept();
 
             //Création des flux d'entrées/sorties
-            InputStream inputDatas = socket.getInputStream();
-            JsonReader jsr = Json.createReader(inputDatas);
-
-            JsonObject accJsonObj = jsr.readObject();
+            ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
             System.out.println("AFFICHAGE BRUT DE L'OBJECT :");
-            System.out.println(accJsonObj);
 
-            System.out.println("-----------------------------");
+            String registerString = (String)ois.readObject();
 
-            System.out.println("AFFICHAGE DE L'OBJECT EN LE 'PARSANT' :");
-            printJsonSendObject(accJsonObj);
+            oos.writeObject(b.generalHandler(fromStringToJson(registerString)).toString());
 
-            jsr.close();
-            inputDatas.close();
+            while(true){
 
-            socket.close();
+            }
+
+            //oos.close();
+            //ois.close();
+
+            //socket.close();
 
         }
 
