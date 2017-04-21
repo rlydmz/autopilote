@@ -28,14 +28,18 @@ public class Server {
             ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            System.out.println("AFFICHAGE BRUT DE L'OBJECT :");
-
             String registerString = (String)ois.readObject();
 
             oos.writeObject(b.generalHandler(fromStringToJson(registerString)).toString());
 
-            while(true){
+            String request;
+            JsonObject answerObj;
 
+            while(true){
+                request = (String)ois.readObject();
+                System.out.println(request);
+                answerObj = b.generalHandler(fromStringToJson(registerString));
+                oos.writeObject(answerObj.toString());
             }
 
             //oos.close();

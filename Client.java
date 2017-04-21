@@ -44,11 +44,19 @@ public class Client{
 
         System.out.println(acc.getId());
 
+        String answer;
+
         while(true){
             acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
             acc.setY(ThreadLocalRandom.current().nextInt(0, 200));
             acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
             oos.writeObject(acc.toSendJsonObject().toString());
+
+            answer = (String)ois.readObject();
+            if(ch.sendHandler(fromStringToJson(answer)) == true){
+                System.out.println("Message bien reçu à " + System.currentTimeMillis());
+            }
+
             Thread.sleep(800);
         }
 
