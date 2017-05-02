@@ -8,4 +8,4 @@ Module autopilote dans le cradre du Projet Technologique du Semestre 5 et 6.
 
 * Lien de la documentation liée à cette bibliothèque : [ici](https://docs.oracle.com/javaee/7/api/javax/json/package-summary.html)
 
-* Lien vers le protocole et la documentation utilisés pour développer l'API ( par [Raphael Druon](https://github.com/norips/slate) ): [ici](https://norips.github.io/slate/)
+* Lien vers le protocole et la documentation utilisés pour développer l'API ( par [Raphael Druon](https://github.com/norips/slate) ) : [ici](https://norips.github.io/slate/)
