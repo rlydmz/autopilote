@@ -50,10 +50,17 @@ public class AccelerometerClient {
 
         String answer;
 
+        int x=0, y=0, z=0;
+
         while(true){
-            acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
-            acc.setY(ThreadLocalRandom.current().nextInt(0, 200));
-            acc.setX(ThreadLocalRandom.current().nextInt(0, 200));
+
+            acc.setX(x);
+            acc.setY(y+=2);
+            acc.setZ(z);
+
+            if(y>500)
+                y=0;
+
             oos.writeObject(acc.toSendJsonObject().toString());
 
             answer = (String)ois.readObject();
@@ -61,7 +68,7 @@ public class AccelerometerClient {
                 System.out.println("Message bien reçu à " + System.currentTimeMillis());
             }
 
-            Thread.sleep(800);
+            Thread.sleep(15);
         }
 
         //oos.close();

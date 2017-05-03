@@ -37,16 +37,24 @@ public class GetterClient {
         //Envoie de l'objet au serveur
         String str = requestJsonObj.toString();
         System.out.println(str);
-        oos.writeObject(str);
 
-        JsonObject answer = ch.getHandler(fromStringToJson((String)ois.readObject()));
+        while(true) {
+            oos.writeObject(str);
 
-        System.out.println(answer.toString());
+            JsonObject answer = ch.getHandler(fromStringToJson((String) ois.readObject()));
 
-        System.out.println(answer.getJsonObject("contents"));
+            System.out.println(answer.toString());
 
-        oos.close();
-        ois.close();
+            System.out.println(answer.getJsonObject("contents"));
+
+            Thread.sleep(15);
+
+        }
+
+        //oos.close();
+        //ois.close();
+
+        //client.close();
     }
 
 }
