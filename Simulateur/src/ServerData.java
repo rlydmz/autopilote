@@ -40,22 +40,6 @@ public class ServerData implements Runnable {
             e.printStackTrace();
         }
 
-        String registerString = null;
-
-        try {
-            registerString = (String)ois.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            oos.writeObject(bus.generalHandler(fromStringToJson(registerString)).toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         String request = "";
         JsonObject answerObj;
 
@@ -68,13 +52,15 @@ public class ServerData implements Runnable {
                 e.printStackTrace();
             }
             System.out.println(request);
-            answerObj = bus.generalHandler(fromStringToJson(registerString));
+            answerObj = bus.generalHandler(fromStringToJson(request));
             try {
                 oos.writeObject(answerObj.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
+
 
 }

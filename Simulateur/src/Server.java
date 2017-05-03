@@ -32,24 +32,18 @@ public class Server {
             ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            String registerString = (String)ois.readObject();
-
-            oos.writeObject(b.generalHandler(fromStringToJson(registerString)).toString());
-
             String request;
             JsonObject answerObj;
 
             while(true){
                 request = (String)ois.readObject();
                 System.out.println(request);
-                answerObj = b.generalHandler(fromStringToJson(registerString));
+                answerObj = b.generalHandler(fromStringToJson(request));
                 oos.writeObject(answerObj.toString());
             }
 
             //oos.close();
             //ois.close();
-
-            //socket.close();
             */
 
         }

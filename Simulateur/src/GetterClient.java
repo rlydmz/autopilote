@@ -25,8 +25,6 @@ public class GetterClient {
         ObjectOutputStream oos= new ObjectOutputStream(client.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
 
-        System.out.println("prout");
-
         //Création du gestionnaire de requetes
         ClientHandler ch = new ClientHandler();
 
@@ -45,7 +43,7 @@ public class GetterClient {
 
         System.out.println(answer.toString());
 
-        System.out.println(answer.getJsonObject("content"));
+        System.out.println(answer.getJsonObject("contents"));
 
         oos.close();
         ois.close();

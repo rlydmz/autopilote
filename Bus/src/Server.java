@@ -22,6 +22,7 @@ public class Server {
         while(true){
 
             Socket socket = serveur.accept();
+            //ServerDa
 
             /*
             //On attend qu'un client interroge le serveur
