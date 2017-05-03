@@ -1,9 +1,10 @@
 
 public class Simulateur {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
 
-        ConnectionWindow cw = new ConnectionWindow();
+        AccelerometerClient accelerometerClient = new AccelerometerClient();
+        accelerometerClient.start();
 
     }
 

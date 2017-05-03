@@ -1,18 +1,22 @@
-import javax.json.*;
-import java.io.*;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Client{
+public class AccelerometerClient {
 
-    public static JsonObject fromStringToJson(String str) {
+    private static JsonObject fromStringToJson(String str) {
         JsonReader jsonReader = Json.createReader(new StringReader(str));
         JsonObject object = jsonReader.readObject();
         jsonReader.close();
         return object;
     }
 
-    public static void main(String[] args) throws Exception {
+    public void start() throws Exception {
 
         //Création de la socket client (port conforme aux spécifications)
         Socket client = new Socket("127.0.0.1", 7182);
@@ -24,7 +28,7 @@ public class Client{
         //Création d'un objet de type 'Accelerometter'
         Accelerometer acc = new Accelerometer(5,5,5);
         acc.setName("ACC1");
-        acc.setClasse("Accelerometter");
+        acc.setClasse("Accelerometer");
 
         //Création du gestionnaire de requetes
         ClientHandler ch = new ClientHandler(acc);
