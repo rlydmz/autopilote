@@ -21,6 +21,10 @@ public class Server {
 
         while(true){
 
+            Socket socket = serveur.accept();
+            new Thread(new ServerData(socket, b)).start();
+
+            /*
             //On attend qu'un client interroge le serveur
             Socket socket = serveur.accept();
 
@@ -28,11 +32,9 @@ public class Server {
             ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            /*
             String registerString = (String)ois.readObject();
 
             oos.writeObject(b.generalHandler(fromStringToJson(registerString)).toString());
-            */
 
             String request;
             JsonObject answerObj;
@@ -40,8 +42,7 @@ public class Server {
             while(true){
                 request = (String)ois.readObject();
                 System.out.println(request);
-                answerObj = b.generalHandler(fromStringToJson(request));
-                System.out.println(answerObj);
+                answerObj = b.generalHandler(fromStringToJson(registerString));
                 oos.writeObject(answerObj.toString());
             }
 
@@ -49,6 +50,7 @@ public class Server {
             //ois.close();
 
             //socket.close();
+            */
 
         }
 

@@ -21,6 +21,9 @@ public class Server {
 
         while(true){
 
+            Socket socket = serveur.accept();
+
+            /*
             //On attend qu'un client interroge le serveur
             Socket socket = serveur.accept();
 
@@ -46,6 +49,7 @@ public class Server {
             //ois.close();
 
             //socket.close();
+            */
 
         }
 
