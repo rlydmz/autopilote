@@ -25,6 +25,8 @@ public class GetterClient {
         ObjectOutputStream oos= new ObjectOutputStream(client.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
 
+        System.out.println("prout");
+
         //Création du gestionnaire de requetes
         ClientHandler ch = new ClientHandler();
 

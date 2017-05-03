@@ -22,12 +22,18 @@ public class Capteur{
 
     public Capteur(String n){
         name = n;
+        id=-1;
+        currentMsgId = 0;
+        msgTab = new Message[MESSAGE_TAB_SIZE];
     }
 
 
     public Capteur(String n, String c){
         classe = c;
         name = n;
+        id=-1;
+        currentMsgId = 0;
+        msgTab = new Message[MESSAGE_TAB_SIZE];
     }
 
     public Capteur(String n, String c, int i, int cmi){
@@ -35,6 +41,7 @@ public class Capteur{
         classe = c;
         id = i;
         currentMsgId = cmi;
+        msgTab = new Message[MESSAGE_TAB_SIZE];
     }
 
     public void setName(String n){

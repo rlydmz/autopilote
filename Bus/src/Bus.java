@@ -25,7 +25,7 @@ public class Bus {
         if(request.getString("type").equals("register")){
             String classe = request.getString("sender_class");
             String name = request.getString("sender_name");
-            Capteur c = new Capteur(classe, name);
+            Capteur c = new Capteur(name, classe);
             answer = registerHandler(c);
         }
         //Si la requete est de type "deregister"
@@ -174,10 +174,8 @@ public class Bus {
                 JsonObject content = Json.createObjectBuilder()
                         .add("contents", request.getJsonObject("contents"))
                         .build();
-                c.addMessage(new Message(
-                        c.getCurrentMsgId(),
-                        content
-                ));
+                Message m = new Message(c.getCurrentMsgId(), content);
+                c.addMessage(m);
             }
         }
         JsonObject answer = Json.createObjectBuilder()
