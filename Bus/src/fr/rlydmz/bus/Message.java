@@ -1,3 +1,5 @@
+package fr.rlydmz.bus;
+
 import javax.json.*;
 import java.io.*;
 

@@ -1,3 +1,5 @@
+import fr.rlydmz.bus.Bus;
+
 import javax.json.*;
 import java.io.*;
 import java.net.ServerSocket;

@@ -1,3 +1,6 @@
+import fr.rlydmz.bus.Accelerometer;
+import fr.rlydmz.bus.ClientHandler;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;

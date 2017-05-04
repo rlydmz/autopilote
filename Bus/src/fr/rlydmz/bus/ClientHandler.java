@@ -1,3 +1,5 @@
+package fr.rlydmz.bus;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 

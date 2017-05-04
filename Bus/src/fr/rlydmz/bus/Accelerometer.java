@@ -1,26 +1,28 @@
+package fr.rlydmz.bus;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
-public class Gyroscope extends Capteur{
+public class Accelerometer extends Capteur{
 
     private float x;
     private float y;
     private float z;
 
-    public Gyroscope(){
+    public Accelerometer(){
         super();
         x = 0;
         y = 0;
         z = 0;
-        this.setClasse("Gyroscope");
+        this.setClasse("fr.rlydmz.bus.Accelerometer");
     }
 
-    public Gyroscope(float x, float y, float z){
+    public Accelerometer(float x, float y, float z){
         super();
         this.x = x;
         this.y = y;
         this.z = z;
-        this.setClasse("Gyroscope");
+        this.setClasse("fr.rlydmz.bus.Accelerometer");
     }
 
     public void setX(float x){
@@ -53,9 +55,9 @@ public class Gyroscope extends Capteur{
                 .add("type", "send")
                 .add("sender_id", getId())
                 .add("contents", Json.createObjectBuilder()
-                        .add("x", getX())
-                        .add("y", getY())
-                        .add("z", getZ()))
+                    .add("x", getX())
+                    .add("y", getY())
+                    .add("z", getZ()))
                 .build();
         return obj;
     }

@@ -1,3 +1,5 @@
+package fr.rlydmz.bus;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -10,14 +12,14 @@ public class GPS extends Capteur{
         super();
         latitude = 0;
         longitude = 0;
-        this.setClasse("GPS");
+        this.setClasse("fr.rlydmz.bus.GPS");
     }
 
     public GPS(double lat, double lgn){
         super();
         latitude = lat;
         longitude = lgn;
-        this.setClasse("GPS");
+        this.setClasse("fr.rlydmz.bus.GPS");
     }
 
     public void setLatitude(double lat){

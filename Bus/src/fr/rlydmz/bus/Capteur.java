@@ -1,5 +1,6 @@
+package fr.rlydmz.bus;
+
 import javax.json.*;
-import java.util.ArrayList;
 
 public class Capteur{
 
@@ -104,7 +105,7 @@ public class Capteur{
         return msgTab[(getCurrentMsgId()-1)%MESSAGE_TAB_SIZE];
     }
 
-    //Converti l'objet Capteur en objet Json
+    //Converti l'objet fr.rlydmz.bus.Capteur en objet Json
     public JsonObject toJson(){
         JsonObject obj = Json.createObjectBuilder()
                 .add("sender_id", getId())
