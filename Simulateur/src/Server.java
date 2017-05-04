@@ -23,28 +23,7 @@ public class Server {
 
             Socket socket = serveur.accept();
             new Thread(new ServerData(socket, b)).start();
-
-            /*
-            //On attend qu'un client interroge le serveur
-            Socket socket = serveur.accept();
-
-            //Création des flux d'entrées/sorties
-            ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-
-            String request;
-            JsonObject answerObj;
-
-            while(true){
-                request = (String)ois.readObject();
-                System.out.println(request);
-                answerObj = b.generalHandler(fromStringToJson(request));
-                oos.writeObject(answerObj.toString());
-            }
-
-            //oos.close();
-            //ois.close();
-            */
+            System.out.println("Connection réussie !");
 
         }
 

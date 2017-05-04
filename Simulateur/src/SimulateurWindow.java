@@ -28,7 +28,7 @@ public class SimulateurWindow extends JFrame{
     public SimulateurWindow(){
 
         this.setTitle("Simulateur");
-        this.setSize(800, 900);
+        this.setSize(800, 800);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -43,6 +43,7 @@ public class SimulateurWindow extends JFrame{
 
         private int lastX = 0;
         private int lastY = 0;
+        private int lastZ = 0;
 
         public TrainCanvas() {
             Thread animationThread = new Thread(new Runnable() {
@@ -103,12 +104,12 @@ public class SimulateurWindow extends JFrame{
                         if(answer != null){
                             tmp = answer.getJsonObject("contents");
                             lastX = tmp.getInt("x");
-                            System.out.println(lastX);
                             lastY = tmp.getInt("y");
-                            System.out.println(lastY);
+                            lastZ = tmp.getInt("z");
                         }
                         repaint();
-                        try {Thread.sleep(15);} catch (Exception ex) {}
+                        try {Thread.sleep(15);} catch (Exception ex) {
+                        }
                     }
                 }
             });
@@ -135,9 +136,12 @@ public class SimulateurWindow extends JFrame{
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             gg.drawString("X", 680, 650);
             gg.drawString("Y", 95, 80);
-            gg.drawString("X = ", 680, 650);
-            gg.drawString("Y = ", 95, 80);
-            gg.drawString("Z = ", 95, 80);
+            gg.drawString("X = ", 100, 720);
+            gg.drawString(Integer.toString(lastX), 150, 720);
+            gg.drawString("Y = ", 300, 720);
+            gg.drawString(Integer.toString(lastY), 350, 720);
+            gg.drawString("Z = ", 500, 720);
+            gg.drawString(Integer.toString(lastZ), 550, 720);
 
             gg.setColor(Color.BLUE);
             gg.fillOval(x, y, trainW, trainW);

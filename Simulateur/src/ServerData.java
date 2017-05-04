@@ -47,7 +47,7 @@ public class ServerData implements Runnable {
             try {
                 request = (String)ois.readObject();
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -56,9 +56,17 @@ public class ServerData implements Runnable {
             try {
                 oos.writeObject(answerObj.toString());
             } catch (IOException e) {
-                e.printStackTrace();
+                break;
             }
         }
+
+        try {
+            this.socket.close();
+            System.out.println("Socket fermée avec succès !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
