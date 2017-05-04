@@ -22,7 +22,7 @@ public class AccelerometerClient {
     public void start() throws Exception {
 
         //Création de la socket client (port conforme aux spécifications)
-        Socket client = new Socket("127.0.0.1", 7182);
+        Socket client = new Socket("192.168.0.11", 7182);
 
         //Création des flux d'entrées/sorties
         ObjectOutputStream oos= new ObjectOutputStream(client.getOutputStream());

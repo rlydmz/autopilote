@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Bus/Bus.iml" filepath="$PROJECT_DIR$/Bus/Bus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DriversGyro/DriversGyro.iml" filepath="$PROJECT_DIR$/DriversGyro/DriversGyro.iml" />
       <module fileurl="file://$PROJECT_DIR$/Simulateur/Simulateur.iml" filepath="$PROJECT_DIR$/Simulateur/Simulateur.iml" />
       <module fileurl="file://$PROJECT_DIR$/autopiloteVCS.iml" filepath="$PROJECT_DIR$/autopiloteVCS.iml" />
     </modules>
